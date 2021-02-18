@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:youtube_favorites/delegates/data_search.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -19,13 +20,13 @@ class Home extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.star),
             onPressed: () {
-
+              
             },
           ),
           IconButton(
             icon: Icon(Icons.search),
-            onPressed: () {
-              
+            onPressed: () async {
+              String result = await showSearch(context: context, delegate: DataSearch());
             },
           )
         ],
