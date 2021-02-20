@@ -1,4 +1,4 @@
-# youtube_favorites
+# youtube_faviritess
 
 A new Flutter project.
 
