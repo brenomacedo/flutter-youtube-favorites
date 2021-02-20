@@ -9,9 +9,9 @@ class VideosBloc implements BlocBase {
   Api api;
   List<Video> videos;
 
-  final StreamController _videosController = StreamController();
+  final StreamController _videosController = StreamController<List<Video>>();
 
-  final StreamController _searchController = StreamController();
+  final StreamController _searchController = StreamController<String>();
 
   Stream get outVideos {
     return _videosController.stream;
@@ -31,8 +31,7 @@ class VideosBloc implements BlocBase {
   void _search(String search) async {
 
     videos = await api.search(search);
-
-    print(videos);
+    _videosController.sink.add(videos);
 
   }
 
@@ -41,5 +40,23 @@ class VideosBloc implements BlocBase {
     _videosController.close();
     _searchController.close();
   }
+
+  @override
+  void addListener(void Function() listener) {
+    
+  }
+
+  @override
+  void removeListener(void Function() listener) {
+    
+  }
+
+  @override
+  void notifyListeners() {
+   
+  }
+
+  @override
+  bool get hasListeners => throw UnimplementedError();
 
 }
