@@ -51,7 +51,14 @@ class Home extends StatelessWidget {
                   return VideoTile(snapshot.data[index]);
                 } else if (index > 1){
                   bloc.inSearch.add(null);
-                  return Container();
+                  return Container(
+                    height: 40,
+                    width: 40,
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.red)
+                    ),
+                  );
                 } else {
                   return Container();
                 }
@@ -59,14 +66,7 @@ class Home extends StatelessWidget {
               },
             );
           else
-            return Container(
-              height: 40,
-              width: 40,
-              alignment: Alignment.center,
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.red)
-              ),
-            );
+            return Container();
         },
         stream: bloc.outVideos,
       ),
