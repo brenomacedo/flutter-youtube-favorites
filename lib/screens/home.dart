@@ -5,6 +5,9 @@ import 'package:youtube_favorites/delegates/data_search.dart';
 import 'package:youtube_favorites/widgets/video_tile.dart';
 
 class Home extends StatelessWidget {
+
+  final VideosBloc bloc = BlocProvider.getBloc<VideosBloc>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,25 +33,42 @@ class Home extends StatelessWidget {
             icon: Icon(Icons.search),
             onPressed: () async {
               String result = await showSearch(context: context, delegate: DataSearch());
-              if(result != null) BlocProvider.getBloc<VideosBloc>().inSearch.add(result);
+              if(result != null) bloc.inSearch.add(result);
             },
           )
         ],
       ),
       backgroundColor: Colors.black,
       body: StreamBuilder(
+        initialData: [],
         builder: (context, snapshot) {
           if(snapshot.hasData)
             return ListView.builder(
-              itemCount: snapshot.data.length,
+              itemCount: snapshot.data.length + 1,
               itemBuilder: (context, index) {
-                return VideoTile(snapshot.data[index]);
+
+                if(index < snapshot.data.length) {
+                  return VideoTile(snapshot.data[index]);
+                } else if (index > 1){
+                  bloc.inSearch.add(null);
+                  return Container();
+                } else {
+                  return Container();
+                }
+
               },
             );
           else
-            return Container();
+            return Container(
+              height: 40,
+              width: 40,
+              alignment: Alignment.center,
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.red)
+              ),
+            );
         },
-        stream: BlocProvider.getBloc<VideosBloc>().outVideos,
+        stream: bloc.outVideos,
       ),
     );
   }
